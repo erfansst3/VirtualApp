@@ -2,12 +2,16 @@ workflows:
   android-build:
     name: Android Debug Build
     max_build_duration: 30
+
     environment:
-      java: 17
+      java: 8
+
     scripts:
       - name: Build APK
         script: |
-          chmod +x gradlew
-          ./VirtualApp/gradlew assembleDebug
+          chmod +x VirtualApp/gradlew
+          cd VirtualApp
+          ./gradlew assembleDebug
+
     artifacts:
-      - "**/build/outputs/apk/**/*.apk"
+      - "VirtualApp/**/build/outputs/apk/**/*.apk"
