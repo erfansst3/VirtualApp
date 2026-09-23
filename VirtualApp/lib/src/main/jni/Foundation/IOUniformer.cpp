@@ -5,7 +5,12 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <fb/include/fb/ALog.h>
+#if defined(__aarch64__)
+#include <hookzz.h>
+#define MSHookFunction(symbol,replace,result) ZzHookReplace(symbol,replace,result)
+#else
 #include <Substrate/CydiaSubstrate.h>
+#endif
 #if defined(__aarch64__)
 #include <hookzz.h>
 #endif
