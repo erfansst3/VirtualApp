@@ -29,7 +29,7 @@ endif
 
 ifeq ($(TARGET_ARCH),arm64)
 LOCAL_C_INCLUDES += $(MAIN_LOCAL_PATH)/HookZz/include $(MAIN_LOCAL_PATH)/HookZz/src $(MAIN_LOCAL_PATH)/fb/include
-LOCAL_CPPFLAGS += -frtti -fexceptions -std=gnu++11
+LOCAL_CPPFLAGS += -frtti -fexceptions -std=gnu++11 -DDISABLE_CPUCAP -DDISABLE_XPLAT
 LOCAL_SRC_FILES += $(wildcard $(MAIN_LOCAL_PATH)/HookZz/src/*.c) $(wildcard $(MAIN_LOCAL_PATH)/HookZz/src/zzdeps/common/*.c) $(wildcard $(MAIN_LOCAL_PATH)/HookZz/src/zzdeps/linux/*.c) $(wildcard $(MAIN_LOCAL_PATH)/HookZz/src/zzdeps/posix/*.c) $(wildcard $(MAIN_LOCAL_PATH)/HookZz/src/platforms/arch-arm64/*.c) $(wildcard $(MAIN_LOCAL_PATH)/HookZz/src/platforms/backend-arm64/*.c) $(wildcard $(MAIN_LOCAL_PATH)/HookZz/src/platforms/backend-linux/*.c) $(wildcard $(MAIN_LOCAL_PATH)/HookZz/src/platforms/backend-posix/*.c)
 LOCAL_SRC_FILES += $(wildcard $(MAIN_LOCAL_PATH)/fb/*.cpp) $(wildcard $(MAIN_LOCAL_PATH)/fb/jni/*.cpp) $(wildcard $(MAIN_LOCAL_PATH)/fb/lyra/*.cpp)
 endif
