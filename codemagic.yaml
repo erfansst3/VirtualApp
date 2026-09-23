@@ -1,17 +1,16 @@
 workflows:
   android-build:
-    name: Android Debug Build
-    max_build_duration: 30
-
+    name: Android 14 ARM64 GMS Build
+    max_build_duration: 45
     environment:
       java: 11
-
     scripts:
       - name: Build APK
         script: |
-          chmod +x VirtualApp/gradlew
+          curl -L -o gradle.zip https://services.gradle.org/distributions/gradle-7.6.4-bin.zip
+          unzip -q gradle.zip
           cd VirtualApp
-          ./gradlew assembleDebug
-
+          ../gradle-7.6.4/bin/gradle assembleDebug
+          unzip -l app/build/outputs/apk/debug/app-debug.apk | grep 'lib/arm64-v8a/libva++.so'
     artifacts:
-      - "VirtualApp/**/build/outputs/apk/**/*.apk"
+      - "VirtualApp/app/build/outputs/apk/debug/app-debug.apk"
