@@ -305,7 +305,7 @@ HOOK_DEF(int, link, const char *oldpath, const char *newpath) {
 HOOK_DEF(int, utimes, const char *pathname, const struct timeval *tvp) {
     int res;
     const char *redirect_path = relocate_path(pathname, &res);
-    int ret = syscall(__NR_utimes, redirect_path, tvp);
+    int ret = ({ struct timespec ts[2]; if (tvp) { ts[0].tv_sec=tvp[0].tv_sec; ts[0].tv_nsec=tvp[0].tv_usec*1000; ts[1]=ts[0]; } syscall(__NR_utimensat, AT_FDCWD, redirect_path, tvp ? ts : NULL, 0); });
     FREE(redirect_path, pathname);
     return ret;
 }
@@ -373,7 +373,7 @@ HOOK_DEF(int, mkdirat, int dirfd, const char *pathname, mode_t mode) {
 HOOK_DEF(int, mkdir, const char *pathname, mode_t mode) {
     int res;
     const char *redirect_path = relocate_path(pathname, &res);
-    int ret = syscall(__NR_mkdir, redirect_path, mode);
+    int ret = syscall(__NR_mkdirat, AT_FDCWD, redirect_path, mode);
     FREE(redirect_path, pathname);
     return ret;
 }
@@ -383,7 +383,7 @@ HOOK_DEF(int, mkdir, const char *pathname, mode_t mode) {
 HOOK_DEF(int, rmdir, const char *pathname) {
     int res;
     const char *redirect_path = relocate_path(pathname, &res);
-    int ret = syscall(__NR_rmdir, redirect_path);
+    int ret = syscall(__NR_unlinkat, AT_FDCWD, redirect_path, AT_REMOVEDIR);
     FREE(redirect_path, pathname);
     return ret;
 }
@@ -401,7 +401,7 @@ HOOK_DEF(int, readlinkat, int dirfd, const char *pathname, char *buf, size_t buf
 HOOK_DEF(ssize_t, readlink, const char *pathname, char *buf, size_t bufsiz) {
     int res;
     const char *redirect_path = relocate_path(pathname, &res);
-    ssize_t ret = syscall(__NR_readlink, redirect_path, buf, bufsiz);
+    ssize_t ret = syscall(__NR_readlinkat, AT_FDCWD, redirect_path, buf, bufsiz);
     FREE(redirect_path, pathname);
     return ret;
 }
@@ -472,7 +472,7 @@ HOOK_DEF(int, __openat, int fd, const char *pathname, int flags, int mode) {
 HOOK_DEF(int, __open, const char *pathname, int flags, int mode) {
     int res;
     const char *redirect_path = relocate_path(pathname, &res);
-    int ret = syscall(__NR_open, redirect_path, flags, mode);
+    int ret = syscall(__NR_openat, AT_FDCWD, redirect_path, flags, mode);
     FREE(redirect_path, pathname);
     return ret;
 }
