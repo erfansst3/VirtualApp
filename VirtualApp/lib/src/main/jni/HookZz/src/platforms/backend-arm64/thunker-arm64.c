@@ -32,7 +32,7 @@
 
 // 前提: 不能直接访问 pc, 也就说只有通过寄存器才能实现绝对地址跳
 
-__attribute__((naked)) static void ctx_save() {
+__attribute__((naked)) void ctx_save() {
     __asm__ volatile(
         "sub sp, sp, #(8*16)\n"
         "stp q6, q7, [sp, #(6*16)]\n"
@@ -58,7 +58,7 @@ __attribute__((naked)) static void ctx_save() {
         "sub sp, sp, #(2*8)\n"
         "str x0, [sp, #8]\n");
 }
-__attribute__((naked)) static void ctx_restore() {
+__attribute__((naked)) void ctx_restore() {
     __asm__ volatile(
         "ldr x0, [sp, #8]\n"
         "add sp, sp, #(2*8)\n"
