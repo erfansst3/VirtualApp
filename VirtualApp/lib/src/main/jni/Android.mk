@@ -29,12 +29,9 @@ LOCAL_SRC_FILES += Substrate/hde64.c Substrate/SubstrateHook.cpp
 endif
 
 ifeq ($(TARGET_ARCH),arm64)
-LOCAL_C_INCLUDES += $(MAIN_LOCAL_PATH)/HookZz/include
-LOCAL_STATIC_LIBRARIES += hookzz
+LOCAL_C_INCLUDES += $(MAIN_LOCAL_PATH)/HookZz/include $(MAIN_LOCAL_PATH)/HookZz/src
+LOCAL_SRC_FILES += $(wildcard $(MAIN_LOCAL_PATH)/HookZz/src/*.c) $(wildcard $(MAIN_LOCAL_PATH)/HookZz/src/zzdeps/common/*.c) $(wildcard $(MAIN_LOCAL_PATH)/HookZz/src/zzdeps/linux/*.c) $(wildcard $(MAIN_LOCAL_PATH)/HookZz/src/zzdeps/posix/*.c) $(wildcard $(MAIN_LOCAL_PATH)/HookZz/src/platforms/arch-arm64/*.c) $(wildcard $(MAIN_LOCAL_PATH)/HookZz/src/platforms/backend-arm64/*.c) $(wildcard $(MAIN_LOCAL_PATH)/HookZz/src/platforms/backend-linux/*.c) $(wildcard $(MAIN_LOCAL_PATH)/HookZz/src/platforms/backend-posix/*.c)
 endif
 
 include $(MAIN_LOCAL_PATH)/fb/Android.mk
-ifeq ($(TARGET_ARCH),arm64)
-include $(MAIN_LOCAL_PATH)/HookZz/Android.mk
-endif
 include $(BUILD_SHARED_LIBRARY)
