@@ -24,9 +24,6 @@ LOCAL_SRC_FILES := Jni/VAJni.cpp \
 LOCAL_LDLIBS := -llog -latomic
 
 
-ifneq ($(TARGET_ARCH),arm64)
-LOCAL_SRC_FILES += Substrate/hde64.c Substrate/SubstrateHook.cpp
-endif
 
 ifeq ($(TARGET_ARCH),arm64)
 LOCAL_C_INCLUDES += $(MAIN_LOCAL_PATH)/HookZz/include $(MAIN_LOCAL_PATH)/HookZz/src $(MAIN_LOCAL_PATH)/fb/include
