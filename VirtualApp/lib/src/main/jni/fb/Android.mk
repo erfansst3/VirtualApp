@@ -39,7 +39,7 @@ LOCAL_EXPORT_CPPFLAGS := $(CXX11_FLAGS)
 LOCAL_LDLIBS := -llog -ldl -landroid
 LOCAL_EXPORT_LDLIBS := -llog
 
-LOCAL_MODULE := libfb
+LOCAL_MODULE := fb
 
 include $(BUILD_STATIC_LIBRARY)
 
