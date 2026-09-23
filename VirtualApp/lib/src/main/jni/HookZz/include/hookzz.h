@@ -53,10 +53,6 @@ typedef bool zbool;
 
 #ifndef zz_register_type
 #define zz_register_type
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #if defined(__arm64__) || defined(__aarch64__)
 typedef union FPReg_ {
     __int128_t q;
@@ -144,6 +140,10 @@ typedef void (*HALFCALL)(RegState *rs, ThreadStack *threadstack, CallStack *call
 
 // ------- export API -------
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 zpointer ZzGetCallStackData(CallStack *callstack_ptr, char *key);
 zbool ZzSetCallStackData(CallStack *callstack_ptr, char *key, zpointer value_ptr, zsize value_size);
 
@@ -181,6 +181,10 @@ ZZSTATUS ZzRuntimeCodePatch(zaddr address, zpointer codedata, zsize codedata_siz
 #ifdef TARGET_IS_IOS
 ZZSTATUS ZzSolidifyHook(zpointer target_fileoff, zpointer replace_call_ptr, zpointer *origin_ptr, PRECALL pre_call_ptr,
                         POSTCALL post_call_ptr);
+#ifdef __cplusplus
+}
+#endif
+
 #endif
 
 #endif
