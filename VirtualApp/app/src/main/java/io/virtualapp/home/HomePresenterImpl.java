@@ -20,7 +20,6 @@ import io.virtualapp.home.models.MultiplePackageAppData;
 import io.virtualapp.home.models.PackageAppData;
 import io.virtualapp.home.repo.AppRepository;
 import io.virtualapp.home.repo.PackageAppDataStorage;
-import jonathanfinerty.once.Once;
 
 /**
  * @author Lody
@@ -43,13 +42,14 @@ class HomePresenterImpl implements HomeContract.HomePresenter {
     @Override
     public void start() {
         dataChanged();
-        if (!Once.beenDone(VCommends.TAG_SHOW_ADD_APP_GUIDE)) {
+        android.content.SharedPreferences p=mActivity.getSharedPreferences("va",0);
+        if (!p.getBoolean(VCommends.TAG_SHOW_ADD_APP_GUIDE,false)) {
             mView.showGuide();
-            Once.markDone(VCommends.TAG_SHOW_ADD_APP_GUIDE);
+            p.edit().putBoolean(VCommends.TAG_SHOW_ADD_APP_GUIDE,true).apply();
         }
-        if (!Once.beenDone(VCommends.TAG_ASK_INSTALL_GMS) && GmsSupport.isOutsideGoogleFrameworkExist()) {
+        if (!p.getBoolean(VCommends.TAG_ASK_INSTALL_GMS,false) && GmsSupport.isOutsideGoogleFrameworkExist()) {
             mView.askInstallGms();
-            Once.markDone(VCommends.TAG_ASK_INSTALL_GMS);
+            p.edit().putBoolean(VCommends.TAG_ASK_INSTALL_GMS,true).apply();
         }
     }
 
