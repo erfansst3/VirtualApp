@@ -497,7 +497,7 @@ ZZSTATUS ZzThunkerBuildThunk(ZzInterceptorBackend *self) {
     /* code patch */
     code_slice = zz_code_patch_arm64_writer(arm64_writer, self->allocator, 0, 0);
     if (code_slice)
-        self->enter_thunk = (void *)enter_thunk_template;
+        self->enter_thunk = code_slice->data;
     else
         return ZZ_FAILED;
 
@@ -505,8 +505,8 @@ ZZSTATUS ZzThunkerBuildThunk(ZzInterceptorBackend *self) {
     if (ZzIsEnableDebugMode()) {
         char buffer[1024] = {};
         sprintf(buffer + strlen(buffer), "%s\n", "ZzThunkerBuildThunk:");
-        sprintf(buffer + strlen(buffer), "LogInfo: enter_thunk at %p, use enter_thunk_template.\n",
-                (void *)enter_thunk_template);
+        sprintf(buffer + strlen(buffer), "LogInfo: enter_thunk at %p.\n",
+                code_slice->data);
         ZzInfoLog("%s", buffer);
     }
 
