@@ -170,6 +170,10 @@ ZZSTATUS ZzRuntimeCodePatch(zaddr address, zpointer codedata, zsize codedata_siz
 
 // ------- export API -------
 
+#ifdef __cplusplus
+}
+#endif
+
 #if defined(__arm64__) || defined(__aarch64__)
 #if defined(__APPLE__) && defined(__MACH__)
 #include <TargetConditionals.h>
@@ -179,12 +183,14 @@ ZZSTATUS ZzRuntimeCodePatch(zaddr address, zpointer codedata, zsize codedata_siz
 #endif
 #endif
 #ifdef TARGET_IS_IOS
+#ifdef __cplusplus
+extern "C" {
+#endif
 ZZSTATUS ZzSolidifyHook(zpointer target_fileoff, zpointer replace_call_ptr, zpointer *origin_ptr, PRECALL pre_call_ptr,
                         POSTCALL post_call_ptr);
 #ifdef __cplusplus
 }
 #endif
-
 #endif
 
 #endif
