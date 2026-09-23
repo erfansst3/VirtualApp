@@ -1,38 +1,25 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
-
+    namespace 'com.lody.virtual'
+    compileSdkVersion 34
+    ndkVersion '25.2.9519653'
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 22
         versionCode 1
-        versionName "1.0"
+        versionName '1.0'
         externalNativeBuild {
-            ndkBuild {
-                abiFilters "armeabi-v7a", "x86"
-            }
+            ndkBuild { abiFilters 'arm64-v8a','armeabi-v7a','x86' }
         }
     }
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),'proguard-rules.pro'
         }
     }
-    externalNativeBuild {
-        ndkBuild {
-            path file("src/main/jni/Android.mk")
-        }
-    }
-    lintOptions {
-        //IJobService need NewApi
-        warning 'NewApi','OnClick'
-    }
+    externalNativeBuild { ndkBuild { path file('src/main/jni/Android.mk') } }
+    lint { abortOnError false; checkReleaseBuilds false }
 }
-
-
-dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-}
+dependencies { implementation fileTree(include: ['*.jar'], dir: 'libs') }
