@@ -6,6 +6,9 @@
 #include <fcntl.h>
 #include <fb/include/fb/ALog.h>
 #include <Substrate/CydiaSubstrate.h>
+#if defined(__aarch64__)
+#include <hookzz.h>
+#endif
 
 #include "IOUniformer.h"
 #include "SandboxFs.h"
@@ -72,7 +75,11 @@ hook_function(void *handle, const char *symbol, void *new_func, void **old_func)
     if (addr == NULL) {
         return;
     }
+#if defined(__aarch64__)
+    ZzHookReplace(addr, new_func, old_func);
+#else
     MSHookFunction(addr, new_func, old_func);
+#endif
 }
 
 
