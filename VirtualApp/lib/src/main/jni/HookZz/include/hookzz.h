@@ -53,6 +53,10 @@ typedef bool zbool;
 
 #ifndef zz_register_type
 #define zz_register_type
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #if defined(__arm64__) || defined(__aarch64__)
 typedef union FPReg_ {
     __int128_t q;
